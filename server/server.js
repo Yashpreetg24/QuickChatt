@@ -11,9 +11,17 @@ import { Server } from "socket.io";
 const app = express();
 const server = http.createServer(app)
 
+// Allowed origins
+const allowedOrigins = process.env.FRONTEND_URL
+    ? [process.env.FRONTEND_URL]
+    : ["*"];
+
 // Initialize socket.io server
 export const io = new Server(server, {
-    cors: {origin: "*"}
+    cors: {
+        origin: allowedOrigins,
+        credentials: true,
+    }
 })
 
 // Store online users
@@ -38,7 +46,10 @@ io.on("connection", (socket)=>{
 
 // Middleware setup
 app.use(express.json({limit: "4mb"}));
-app.use(cors());
+app.use(cors({
+    origin: allowedOrigins,
+    credentials: true,
+}));
 
 
 // Routes setup
