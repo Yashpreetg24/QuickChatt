@@ -53,6 +53,21 @@ export const ChatProvider = ({ children })=>{
         }
     }
 
+    // function to react to a message
+    const reactToMessage = async (messageId, emoji) => {
+        try {
+            const { data } = await axios.put(`/api/messages/react/${messageId}`, { emoji });
+            if (data.success) {
+                // Update local state smoothly
+                setMessages(prev => prev.map(msg => msg._id === messageId ? data.updatedMessage : msg));
+            } else {
+                toast.error(data.message);
+            }
+        } catch (error) {
+            toast.error(error.message);
+        }
+    };
+
     // function to subscribe to messages for selected user
     const subscribeToMessages = async () =>{
         if(!socket) return;
@@ -67,12 +82,21 @@ export const ChatProvider = ({ children })=>{
                     ...prevUnseenMessages, [newMessage.senderId] : prevUnseenMessages[newMessage.senderId] ? prevUnseenMessages[newMessage.senderId] + 1 : 1
                 }))
             }
-        })
+        });
+
+        socket.on("messageReacted", ({ messageId, reactions }) => {
+            setMessages(prev => prev.map(msg => 
+                msg._id === messageId ? { ...msg, reactions } : msg
+            ));
+        });
     }
 
     // function to unsubscribe from messages
     const unsubscribeFromMessages = ()=>{
-        if(socket) socket.off("newMessage");
+        if(socket) {
+            socket.off("newMessage");
+            socket.off("messageReacted");
+        }
     }
 
     useEffect(()=>{
@@ -81,7 +105,7 @@ export const ChatProvider = ({ children })=>{
     },[socket, selectedUser])
 
     const value = {
-        messages, users, selectedUser, getUsers, getMessages, sendMessage, setSelectedUser, unseenMessages, setUnseenMessages
+        messages, users, selectedUser, getUsers, getMessages, sendMessage, reactToMessage, setSelectedUser, unseenMessages, setUnseenMessages
     }
 
     return (

@@ -1,11 +1,215 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-*{
-  font-family: "Outfit", sans-serif;
+/* QuickChatt Design System — Dark glassmorphism + neon accents
+   All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Light theme */
+    --background: 240 30% 97%;
+    --foreground: 240 25% 12%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 240 25% 12%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 25% 12%;
+
+    --primary: 262 83% 58%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 262 90% 70%;
+
+    --secondary: 240 20% 94%;
+    --secondary-foreground: 240 25% 15%;
+
+    --muted: 240 20% 94%;
+    --muted-foreground: 240 10% 45%;
+
+    --accent: 189 94% 43%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 240 20% 88%;
+    --input: 240 20% 92%;
+    --ring: 262 83% 58%;
+
+    --radius: 1rem;
+
+    /* QuickChatt brand */
+    --brand-purple: 262 83% 58%;
+    --brand-cyan: 189 94% 43%;
+    --online: 142 76% 45%;
+
+    /* Glass surfaces */
+    --glass-bg: 0 0% 100%;
+    --glass-bg-alpha: 0.7;
+    --glass-border: 240 20% 88%;
+
+    /* Bubbles */
+    --bubble-sent-from: 262 83% 58%;
+    --bubble-sent-to: 280 85% 60%;
+    --bubble-received: 0 0% 100%;
+    --bubble-received-foreground: 240 25% 15%;
+
+    /* Background scene */
+    --scene-from: 240 60% 96%;
+    --scene-via: 260 60% 95%;
+    --scene-to: 220 70% 95%;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--brand-purple)), hsl(var(--brand-cyan)));
+    --gradient-sent: linear-gradient(135deg, hsl(var(--bubble-sent-from)), hsl(var(--bubble-sent-to)));
+    --gradient-scene: radial-gradient(1200px 600px at 10% 0%, hsl(var(--brand-purple) / 0.18), transparent 60%),
+                      radial-gradient(900px 600px at 90% 100%, hsl(var(--brand-cyan) / 0.16), transparent 60%),
+                      linear-gradient(160deg, hsl(var(--scene-from)), hsl(var(--scene-via)), hsl(var(--scene-to)));
+
+    /* Shadows */
+    --shadow-glass: 0 8px 32px -8px hsl(240 50% 30% / 0.15);
+    --shadow-glow: 0 0 40px hsl(var(--brand-purple) / 0.4);
+    --shadow-bubble: 0 4px 20px -4px hsl(var(--brand-purple) / 0.25);
+
+    --transition-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .dark {
+    --background: 240 35% 6%;
+    --foreground: 240 15% 95%;
+
+    --card: 240 30% 10%;
+    --card-foreground: 240 15% 95%;
+
+    --popover: 240 30% 10%;
+    --popover-foreground: 240 15% 95%;
+
+    --primary: 262 90% 66%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 280 95% 72%;
+
+    --secondary: 240 25% 14%;
+    --secondary-foreground: 240 15% 95%;
+
+    --muted: 240 25% 14%;
+    --muted-foreground: 240 10% 65%;
+
+    --accent: 189 94% 55%;
+    --accent-foreground: 240 35% 6%;
+
+    --destructive: 0 75% 55%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 240 25% 18%;
+    --input: 240 25% 14%;
+    --ring: 262 90% 66%;
+
+    --brand-purple: 262 90% 66%;
+    --brand-cyan: 189 94% 55%;
+    --online: 142 76% 50%;
+
+    --glass-bg: 240 35% 10%;
+    --glass-bg-alpha: 0.5;
+    --glass-border: 240 30% 22%;
+
+    --bubble-sent-from: 262 90% 60%;
+    --bubble-sent-to: 280 90% 62%;
+    --bubble-received: 240 30% 14%;
+    --bubble-received-foreground: 240 15% 95%;
+
+    --scene-from: 240 50% 6%;
+    --scene-via: 260 55% 8%;
+    --scene-to: 230 50% 7%;
+
+    --gradient-primary: linear-gradient(135deg, hsl(var(--brand-purple)), hsl(var(--brand-cyan)));
+    --gradient-sent: linear-gradient(135deg, hsl(var(--bubble-sent-from)), hsl(var(--bubble-sent-to)));
+    --gradient-scene: radial-gradient(1200px 600px at 10% 0%, hsl(var(--brand-purple) / 0.25), transparent 60%),
+                      radial-gradient(900px 600px at 90% 100%, hsl(var(--brand-cyan) / 0.18), transparent 60%),
+                      linear-gradient(160deg, hsl(var(--scene-from)), hsl(var(--scene-via)), hsl(var(--scene-to)));
+
+    --shadow-glass: 0 8px 32px -8px hsl(0 0% 0% / 0.5);
+    --shadow-glow: 0 0 40px hsl(var(--brand-purple) / 0.5);
+    --shadow-bubble: 0 4px 20px -4px hsl(var(--brand-purple) / 0.4);
+  }
 }
 
-::-webkit-scrollbar{
-  display: none;
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html, body, #root {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  body {
+    @apply text-foreground antialiased;
+    font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    background: hsl(var(--background));
+    background-image: var(--gradient-scene);
+    background-attachment: fixed;
+    transition: background-color 0.4s var(--transition-smooth), color 0.4s var(--transition-smooth);
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted-foreground) / 0.3);
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--primary) / 0.5);
+  }
+}
+
+@layer components {
+  .glass {
+    background: hsl(var(--glass-bg) / var(--glass-bg-alpha));
+    backdrop-filter: blur(24px) saturate(140%);
+    -webkit-backdrop-filter: blur(24px) saturate(140%);
+    border: 1px solid hsl(var(--glass-border) / 0.6);
+    box-shadow: var(--shadow-glass);
+  }
+
+  .glass-strong {
+    background: hsl(var(--glass-bg) / 0.85);
+    backdrop-filter: blur(32px) saturate(160%);
+    -webkit-backdrop-filter: blur(32px) saturate(160%);
+    border: 1px solid hsl(var(--glass-border) / 0.7);
+    box-shadow: var(--shadow-glass);
+  }
+
+  .bubble-sent {
+    background: var(--gradient-sent);
+    color: hsl(var(--primary-foreground));
+    box-shadow: var(--shadow-bubble);
+  }
+
+  .bubble-received {
+    background: hsl(var(--bubble-received));
+    color: hsl(var(--bubble-received-foreground));
+    border: 1px solid hsl(var(--glass-border) / 0.5);
+    backdrop-filter: blur(12px);
+  }
+
+  .text-gradient {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .neon-ring {
+    box-shadow: 0 0 0 2px hsl(var(--background)), 0 0 0 4px hsl(var(--primary) / 0.6), var(--shadow-glow);
+  }
 }
