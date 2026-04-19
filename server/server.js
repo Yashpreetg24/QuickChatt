@@ -11,25 +11,9 @@ import { Server } from "socket.io";
 const app = express();
 const server = http.createServer(app)
 
-// CORS origin function — allows specific origin in prod, all in dev
-const corsOrigin = (origin, callback) => {
-    const frontendUrl = process.env.FRONTEND_URL;
-    if (!frontendUrl) {
-        // Dev mode: allow all origins
-        return callback(null, true);
-    }
-    if (!origin || origin === frontendUrl) {
-        return callback(null, true);
-    }
-    return callback(new Error("Not allowed by CORS"));
-};
-
-// Initialize socket.io server
+// Initialize socket.io server — origin * is safe since auth uses custom token header, not cookies
 export const io = new Server(server, {
-    cors: {
-        origin: corsOrigin,
-        credentials: true,
-    }
+    cors: { origin: "*" }
 })
 
 // Store online users
@@ -54,10 +38,7 @@ io.on("connection", (socket)=>{
 
 // Middleware setup
 app.use(express.json({limit: "4mb"}));
-app.use(cors({
-    origin: corsOrigin,
-    credentials: true,
-}));
+app.use(cors());
 
 
 // Routes setup
