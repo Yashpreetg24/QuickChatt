@@ -78,13 +78,13 @@ export function ProfileModal({ isOpen, onClose }) {
                 onClick={() => fileInputRef.current?.click()}
                 className="relative cursor-pointer group"
               >
-                {selectedImg ? (
-                  <img src={URL.createObjectURL(selectedImg)} className="h-[120px] w-[120px] rounded-full object-cover shadow-xl border-4 border-[#1C1C1E] ring-1 ring-white/10" alt="Preview"/>
-                ) : authUser.profilePic ? (
-                  <img src={authUser.profilePic} className="h-[120px] w-[120px] rounded-full object-cover shadow-xl border-4 border-[#1C1C1E] ring-1 ring-white/10" alt="Profile"/>
-                ) : (
-                  <img src={assets.avatar_icon} className="h-[120px] w-[120px] rounded-full object-cover shadow-xl border-4 border-[#1C1C1E] ring-1 ring-white/10 opacity-70" alt="Default"/>
-                )}
+                <Avatar
+                  image={selectedImg ? URL.createObjectURL(selectedImg) : authUser.profilePic}
+                  initials={authUser.fullName?.charAt(0) || "M"}
+                  color="bg-purple-600"
+                  size="xl"
+                  className="shadow-xl border-4 border-[#1C1C1E]"
+                />
                 <div className="absolute inset-0 rounded-full bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center backdrop-blur-[2px]">
                   <span className="text-white text-xs font-semibold">Click to Edit</span>
                 </div>

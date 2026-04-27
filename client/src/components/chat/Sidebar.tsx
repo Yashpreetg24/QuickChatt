@@ -1,4 +1,4 @@
-import { Search, Settings } from "lucide-react";
+import { Search, Settings, Zap } from "lucide-react";
 import { useContext, useState, useEffect } from "react";
 import { Avatar } from "./Avatar";
 import { cn } from "@/lib/utils";
@@ -24,7 +24,7 @@ export function Sidebar({ collapsed, activeId, onSelect }) {
   const me = {
     name: authUser?.fullName || "Me",
     initials: authUser?.fullName?.charAt(0) || "M",
-    avatarColor: "bg-blue-500",
+    avatarColor: "bg-purple-600",
     profilePic: authUser?.profilePic,
   };
 
@@ -39,16 +39,17 @@ export function Sidebar({ collapsed, activeId, onSelect }) {
           className="glass-strong h-full w-full md:w-[320px] lg:w-[360px] flex flex-col rounded-none md:rounded-r-3xl overflow-hidden"
         >
           {/* Brand */}
-          <div className="px-5 pt-5 pb-3 flex justify-between">
-            <div className="flex items-center gap-2">
-              <img src={assets.logo_icon} alt="logo" className='max-h-8 max-w-8' />
-              <h1 className="text-xl font-bold tracking-tight">
-                Quick<span className="text-gradient">Chat</span>
+          <div className="px-5 pt-6 pb-4 flex justify-between items-center">
+            <div className="flex items-center gap-2 group cursor-pointer">
+              <img src={assets.logo_icon} alt="logo" className='h-9 w-9 object-contain' />
+              <h1 className="text-[26px] font-extrabold tracking-tight flex items-baseline">
+                <span className="text-foreground">Quick</span>
+                <span className="text-gradient">Chat</span>
               </h1>
             </div>
             
-            <div className="relative py-2 group cursor-pointer" onClick={() => setShowProfileModal(true)}>
-              <Settings className="h-5 w-5 text-muted-foreground hover:text-foreground transition-all duration-200" />
+            <div className="relative group cursor-pointer p-1" onClick={() => setShowProfileModal(true)}>
+              <Settings className="h-5 w-5 text-muted-foreground group-hover:text-foreground group-hover:rotate-90 transition-all duration-500" />
             </div>
           </div>
 
@@ -56,16 +57,18 @@ export function Sidebar({ collapsed, activeId, onSelect }) {
 
           {/* Me */}
           <div className="px-5 pb-4 flex items-center gap-3">
-            {me.profilePic ? (
-               <img src={me.profilePic} className="h-10 w-10 rounded-full object-cover shadow-glass" alt="Profile" />
-            ) : (
-               <Avatar initials={me.initials} color={me.avatarColor} online size="md" />
-            )}
+            <Avatar 
+              image={me.profilePic} 
+              initials={me.initials} 
+              color={me.avatarColor} 
+              online 
+              size="md" 
+            />
             
             <div className="min-w-0">
               <p className="text-sm font-semibold truncate text-foreground">{me.name}</p>
-              <p className="text-xs text-online flex items-center gap-1.5">
-                <span className="h-1.5 w-1.5 rounded-full bg-online drop-shadow-[0_0_4px_rgba(34,197,94,0.8)]" /> Online
+              <p className="text-xs text-online flex items-center gap-1.5 font-medium">
+                <span className="h-2 w-2 rounded-full bg-online drop-shadow-[0_0_4px_rgba(34,197,94,0.6)]" /> Online
               </p>
             </div>
           </div>
@@ -93,53 +96,56 @@ export function Sidebar({ collapsed, activeId, onSelect }) {
                 
                 return (
                   <li key={r._id}>
-                    <button
+                    <motion.button
+                      whileHover={{ x: 2 }}
+                      whileTap={{ scale: 0.99 }}
                       onClick={() => onSelect(r)}
                       className={cn(
-                        "w-full flex items-center gap-3 px-3 py-2.5 rounded-2xl text-left transition-all duration-200 group",
+                        "w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-left transition-all duration-200 relative overflow-hidden group will-change-transform",
                         active
-                          ? "bg-gradient-to-r from-primary/15 to-accent/10 ring-1 ring-primary/30 text-foreground"
-                          : "hover:bg-secondary/60 text-muted-foreground"
+                          ? "bg-foreground/10 text-foreground"
+                          : "hover:bg-foreground/5 text-muted-foreground"
                       )}
                     >
-                      {r.profilePic ? (
-                        <div className="relative">
-                           <img src={r.profilePic} className="h-10 w-10 rounded-full object-cover" />
-                        </div>
-                      ) : (
-                        <Avatar
-                          initials={r.fullName?.charAt(0) || "?"}
-                          color={"bg-purple-600"}
-                          online={isOnline}
-                          size="md"
-                        />
-                      )}
+                      <Avatar
+                        image={r.profilePic}
+                        initials={r.fullName?.charAt(0) || "?"}
+                        color="bg-purple-600"
+                        online={isOnline}
+                        size="md"
+                        className="transition-transform group-hover:scale-105"
+                      />
                       
-                      <div className="min-w-0 flex-1">
-                        <div className="flex items-center justify-between gap-2">
-                          <p className={cn("text-sm font-semibold truncate", active ? "text-foreground" : "text-foreground/80")}>
-                            {r.fullName}
-                          </p>
-                          <span className="text-[10px] text-muted-foreground shrink-0">
-                            {isOnline ? "now" : "offline"}
-                          </span>
-                        </div>
-                        <div className="flex items-center justify-between gap-2 mt-0.5">
-                          <p className={cn(
-                            "text-xs truncate text-muted-foreground"
-                          )}>
-                             Tap to chat
-                          </p>
-                          {unread > 0 && (
-                            <span className={cn(
-                              "shrink-0 min-w-[20px] h-5 px-1.5 rounded-full bg-gradient-primary text-[10px] font-bold text-primary-foreground grid place-items-center shadow-bubble animate-shake"
-                            )}>
-                              {unread}
-                            </span>
-                          )}
-                        </div>
+                      <div className="min-w-0 flex-1 relative z-10">
+                        <p className={cn("text-[14px] font-bold tracking-tight truncate", active ? "text-foreground" : "text-foreground/90")}>
+                          {r.fullName}
+                        </p>
+                        <p className={cn(
+                          "text-xs truncate transition-colors mt-0.5",
+                          active ? "text-foreground/60" : "text-muted-foreground/80"
+                        )}>
+                           Tap to start chatting
+                        </p>
                       </div>
-                    </button>
+
+                      <div className="flex flex-col items-end justify-between self-stretch shrink-0 py-0.5">
+                        {isOnline && (
+                          <div className="flex items-center gap-1.5 text-online transition-colors">
+                            <span className="h-1.5 w-1.5 rounded-full bg-online shadow-[0_0_4px_rgba(34,197,94,0.6)] animate-pulse-dot" />
+                            <span className="text-[10px] font-medium leading-none">online</span>
+                          </div>
+                        )}
+                        {unread > 0 && (
+                          <span className={cn(
+                            "min-w-[18px] h-[18px] px-1 rounded-full bg-gradient-primary text-[9px] font-black text-primary-foreground flex items-center justify-center shadow-glow animate-pulse mt-auto"
+                          )}>
+                            {unread}
+                          </span>
+                        )}
+                      </div>
+                      
+
+                    </motion.button>
                   </li>
                 );
               })}

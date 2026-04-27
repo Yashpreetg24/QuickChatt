@@ -5,9 +5,10 @@ export type Message = {
   id: string;
   roomId: string;
   authorId: string; // "me" for current user
-  type: "text" | "voice";
+  type: "text" | "voice" | "image";
   text?: string;
   audioUrl?: string;
+  imageUrl?: string;
   duration?: number; // seconds
   waveform?: number[]; // 0..1 bars for voice
   createdAt: number;

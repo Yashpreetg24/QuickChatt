@@ -29,7 +29,7 @@ export function ChatHeader({ room, isFullscreen, isDark, onToggleFullscreen, onT
           {room.online ? (
             <>
               <span className="h-1.5 w-1.5 rounded-full bg-online animate-pulse-dot" />
-              <span className="text-online">Online</span>
+              <span className="text-online font-medium">Online</span>
             </>
           ) : (
             <>Offline</>

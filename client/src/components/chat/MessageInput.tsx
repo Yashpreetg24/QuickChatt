@@ -188,130 +188,142 @@ export function MessageInput(props: Props) {
         )}
       </AnimatePresence>
 
-      <div className="glass border-t border-border/40 px-3 py-3 md:px-4 md:py-4 rounded-none md:rounded-b-3xl">
-        <AnimatePresence mode="wait">
-          {recording ? (
-            <motion.div
-              key="rec"
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 8 }}
-              className="flex items-center gap-3"
-            >
-              <button
-                onClick={() => stopRecording(true)}
-                className="h-10 w-10 rounded-full grid place-items-center bg-secondary hover:bg-destructive hover:text-destructive-foreground transition"
-                aria-label="Cancel"
+      <div className="px-4 pb-6 pt-2">
+        <div className="glass-strong rounded-[28px] p-2 md:p-3 flex items-center gap-2 shadow-2xl ring-1 ring-white/10">
+          <AnimatePresence mode="wait">
+            {recording ? (
+              <motion.div
+                key="rec"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                className="flex items-center gap-3 w-full"
               >
-                <X className="h-4 w-4" />
-              </button>
-              <div className="flex-1 flex items-center gap-3 px-4 h-12 rounded-full bg-secondary/70 border border-border/50">
-                <span className="relative grid place-items-center">
-                  <span className="h-2.5 w-2.5 rounded-full bg-destructive animate-pulse-dot" />
-                  <span className="absolute h-2.5 w-2.5 rounded-full bg-destructive/60 animate-pulse-ring" />
-                </span>
-                <div className="flex items-end gap-[2px] h-8 flex-1">
-                  {liveWave.map((h, i) => (
-                    <span
-                      key={i}
-                      className="w-[3px] rounded-full bg-gradient-to-t from-brand-purple to-brand-cyan transition-all"
-                      style={{ height: `${Math.max(15, h * 100)}%` }}
-                    />
-                  ))}
-                </div>
-                <span className="text-xs tabular-nums text-muted-foreground">{fmt(recDuration)}</span>
-              </div>
-              <button
-                onMouseUp={() => stopRecording(false)}
-                onTouchEnd={() => stopRecording(false)}
-                onClick={() => stopRecording(false)}
-                className="h-12 w-12 rounded-full grid place-items-center bg-gradient-primary text-primary-foreground shadow-glow hover:scale-105 transition active:scale-95"
-                aria-label="Send voice message"
-              >
-                <Send className="h-5 w-5" />
-              </button>
-            </motion.div>
-          ) : (
-            <motion.div
-              key="idle"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="flex items-center gap-2"
-            >
-              <button
-                onClick={() => setShowEmoji((v) => !v)}
-                className={cn(
-                  "h-10 w-10 grid place-items-center rounded-full transition",
-                  showEmoji ? "bg-primary/15 text-primary" : "text-muted-foreground hover:text-foreground hover:bg-secondary/70"
-                )}
-                aria-label="Emoji"
-              >
-                <Smile className="h-5 w-5" />
-              </button>
-              <input
-                onChange={(e) => {
-                  const file = e.target.files?.[0];
-                  if (!file) return;
-                  const reader = new FileReader();
-                  reader.onloadend = () => {
-                    if (props.onSendImage) props.onSendImage(reader.result);
-                  };
-                  reader.readAsDataURL(file);
-                  e.target.value = "";
-                }}
-                type="file"
-                id="image-upload"
-                accept="image/png, image/jpeg"
-                hidden
-              />
-              <label
-                htmlFor="image-upload"
-                className="h-10 w-10 grid place-items-center rounded-full text-muted-foreground hover:text-foreground hover:bg-secondary/70 transition cursor-pointer"
-                aria-label="Attach Image"
-              >
-                <Image className="h-5 w-5" />
-              </label>
-
-              <input
-                ref={inputRef}
-                value={text}
-                onChange={(e) => {
-                  setText(e.target.value);
-                  onTyping();
-                }}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && !e.shiftKey) {
-                    e.preventDefault();
-                    handleSend();
-                  }
-                }}
-                placeholder="Type a message…"
-                className="flex-1 h-12 px-5 rounded-full bg-secondary/70 border border-border/50 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/40 transition"
-              />
-
-              {text.trim() ? (
-                <motion.button
-                  whileTap={{ scale: 0.88 }}
-                  onClick={handleSend}
-                  className="h-12 w-12 rounded-full grid place-items-center bg-gradient-primary text-primary-foreground shadow-glow hover:scale-105 transition active:animate-spring"
-                  aria-label="Send"
-                >
-                  <Send className="h-5 w-5 -translate-x-px" />
-                </motion.button>
-              ) : (
                 <button
-                  onMouseDown={startRecording}
-                  onTouchStart={startRecording}
-                  className="relative h-12 w-12 rounded-full grid place-items-center bg-gradient-primary text-primary-foreground shadow-glow hover:scale-105 transition"
-                  aria-label="Hold to record"
-                  title="Hold to record voice message"
+                  onClick={() => stopRecording(true)}
+                  className="h-11 w-11 rounded-2xl grid place-items-center bg-destructive/10 text-destructive hover:bg-destructive hover:text-white transition-all duration-300"
                 >
-                  <Mic className="h-5 w-5" />
+                  <X className="h-5 w-5" />
                 </button>
-              )}
-            </motion.div>
-          )}
-        </AnimatePresence>
+                <div className="flex-1 flex items-center gap-4 px-5 h-12 rounded-2xl bg-foreground/5 border border-white/5">
+                  <div className="relative">
+                    <span className="h-2.5 w-2.5 rounded-full bg-destructive animate-pulse" />
+                    <span className="absolute inset-0 h-2.5 w-2.5 rounded-full bg-destructive/50 animate-ping" />
+                  </div>
+                  <div className="flex items-end gap-[3px] h-8 flex-1">
+                    {liveWave.map((h, i) => (
+                      <motion.span
+                        key={i}
+                        animate={{ height: `${Math.max(15, h * 100)}%` }}
+                        className="w-[3px] rounded-full bg-gradient-to-t from-brand-purple to-brand-cyan opacity-80"
+                      />
+                    ))}
+                  </div>
+                  <span className="text-[13px] font-bold tabular-nums text-muted-foreground">{fmt(recDuration)}</span>
+                </div>
+                <button
+                  onMouseUp={() => stopRecording(false)}
+                  onTouchEnd={() => stopRecording(false)}
+                  onClick={() => stopRecording(false)}
+                  className="h-12 w-12 rounded-2xl grid place-items-center bg-gradient-primary text-white shadow-glow hover:scale-105 transition active:scale-95"
+                >
+                  <Send className="h-5 w-5" />
+                </button>
+              </motion.div>
+            ) : (
+              <motion.div
+                key="idle"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="flex items-center gap-1.5 w-full"
+              >
+                <div className="flex items-center gap-1 bg-foreground/5 p-1 rounded-2xl border border-white/5">
+                  <button
+                    onClick={() => setShowEmoji((v) => !v)}
+                    className={cn(
+                      "h-10 w-10 grid place-items-center rounded-xl transition-all duration-300",
+                      showEmoji ? "bg-primary text-white shadow-glow" : "text-muted-foreground hover:text-foreground hover:bg-white/5"
+                    )}
+                  >
+                    <Smile className="h-5.5 w-5.5" />
+                  </button>
+                  
+                  <input
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (!file) return;
+                      const reader = new FileReader();
+                      reader.onloadend = () => {
+                        if (props.onSendImage) props.onSendImage(reader.result);
+                      };
+                      reader.readAsDataURL(file);
+                      e.target.value = "";
+                    }}
+                    type="file"
+                    id="image-upload"
+                    accept="image/png, image/jpeg"
+                    hidden
+                  />
+                  <label
+                    htmlFor="image-upload"
+                    className="h-10 w-10 grid place-items-center rounded-xl text-muted-foreground hover:text-foreground hover:bg-white/5 transition-all duration-300 cursor-pointer"
+                  >
+                    <Image className="h-5.5 w-5.5" />
+                  </label>
+                </div>
+
+                <div className="flex-1 relative group">
+                  <input
+                    ref={inputRef}
+                    value={text}
+                    onChange={(e) => {
+                      setText(e.target.value);
+                      onTyping();
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && !e.shiftKey) {
+                        e.preventDefault();
+                        handleSend();
+                      }
+                    }}
+                    placeholder="Message..."
+                    className="w-full h-12 pl-5 pr-12 rounded-2xl bg-foreground/5 border border-white/5 text-[15px] placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:bg-foreground/10 transition-all"
+                  />
+                </div>
+
+                <AnimatePresence mode="wait">
+                  {text.trim() ? (
+                    <motion.button
+                      key="send"
+                      initial={{ scale: 0.8, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      exit={{ scale: 0.8, opacity: 0 }}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={handleSend}
+                      className="h-12 w-12 rounded-2xl grid place-items-center bg-gradient-primary text-white shadow-glow"
+                    >
+                      <Send className="h-5.5 w-5.5 -translate-x-px" />
+                    </motion.button>
+                  ) : (
+                    <motion.button
+                      key="mic"
+                      initial={{ scale: 0.8, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      exit={{ scale: 0.8, opacity: 0 }}
+                      whileHover={{ scale: 1.05 }}
+                      onMouseDown={startRecording}
+                      onTouchStart={startRecording}
+                      className="h-12 w-12 rounded-2xl grid place-items-center bg-gradient-primary text-white shadow-glow"
+                    >
+                      <Mic className="h-5.5 w-5.5" />
+                    </motion.button>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       </div>
     </div>
   );
