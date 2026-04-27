@@ -64,10 +64,10 @@ const LoginPage = () => {
         transition={{ delay: 0.2, duration: 0.8 }}
         className="relative z-10"
       >
-        <form onSubmit={onSubmitHandler} className="glass-strong p-10 flex flex-col gap-8 rounded-[40px] shadow-2xl border-white/10 w-[420px] hover:border-primary/30 transition-all duration-700 group/form">
-          <header className="space-y-2">
-            <h2 className="text-4xl font-bold tracking-tight text-white">{currState}</h2>
-            <p className="text-base text-muted-foreground/80">Experience the next generation of chat.</p>
+        <form onSubmit={onSubmitHandler} className="glass-strong p-8 flex flex-col gap-6 rounded-[32px] shadow-2xl border-white/10 w-[420px] hover:border-primary/30 transition-all duration-700 group/form">
+          <header className="space-y-1">
+            <h2 className="text-3xl font-bold tracking-tight text-white">{currState}</h2>
+            <p className="text-sm text-muted-foreground/80">Experience the next generation of chat.</p>
           </header>
 
           <div className="flex flex-col gap-5">
@@ -78,7 +78,7 @@ const LoginPage = () => {
                   value={fullName}
                   type="text"
                   placeholder="Full Name"
-                  className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all placeholder:text-white/20 text-white"
+                  className="w-full bg-white/5 border border-white/10 rounded-xl py-3.5 px-5 outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all placeholder:text-white/20 text-white"
                   required
                 />
               </div>
@@ -91,7 +91,7 @@ const LoginPage = () => {
                   value={email}
                   type="email"
                   placeholder="Email Address"
-                  className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all placeholder:text-white/20 text-white"
+                  className="w-full bg-white/5 border border-white/10 rounded-xl py-3.5 px-5 outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all placeholder:text-white/20 text-white"
                   required
                 />
                 <input
@@ -99,7 +99,7 @@ const LoginPage = () => {
                   value={password}
                   type="password"
                   placeholder="Password"
-                  className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all placeholder:text-white/20 text-white"
+                  className="w-full bg-white/5 border border-white/10 rounded-xl py-3.5 px-5 outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all placeholder:text-white/20 text-white"
                   required
                 />
               </>
@@ -119,7 +119,7 @@ const LoginPage = () => {
 
           <button 
             type="submit" 
-            className="w-full py-4.5 bg-gradient-primary rounded-2xl font-bold text-white text-lg shadow-xl shadow-primary/20 hover:shadow-primary/40 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
+            className="w-full py-3.5 bg-gradient-primary rounded-xl font-bold text-white text-lg shadow-xl shadow-primary/20 hover:shadow-primary/40 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
           >
             {currState === "Sign up" ? "Create Account" : "Login Now"}
           </button>
@@ -135,7 +135,7 @@ const LoginPage = () => {
 
             <div className="text-center pt-2">
               {currState === "Sign up" ? (
-                <p className="text-muted-foreground">Already have an account? <span onClick={() => handleStateSwitch("Login")} className="text-primary font-bold cursor-pointer hover:text-primary-glow transition-colors ml-1">Login here</span></p>
+                <p className="text-muted-foreground text-base">Already have an account? <span onClick={() => handleStateSwitch("Login")} className="text-primary font-bold cursor-pointer hover:text-primary-glow transition-colors ml-1">Login here</span></p>
               ) : (
                 <p className="text-muted-foreground text-base">New to QuickChat? <span onClick={() => handleStateSwitch("Sign up")} className="text-primary font-bold cursor-pointer hover:text-primary-glow transition-colors ml-1">Create Account</span></p>
               )}
