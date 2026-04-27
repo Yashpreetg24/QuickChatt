@@ -47,15 +47,7 @@ app.use("/api/status", (req, res)=> res.send("Server is live"));
 app.use("/api/auth", userRouter);
 app.use("/api/messages", messageRouter)
 
-const __dirname = path.resolve();
 
-if (process.env.NODE_ENV === "production") {
-    app.use(express.static(path.join(__dirname, "../client/dist")));
-
-    app.use((req, res) => {
-        res.sendFile(path.join(__dirname, "../client", "dist", "index.html"));
-    });
-}
 
 
 // Connect to MongoDB
